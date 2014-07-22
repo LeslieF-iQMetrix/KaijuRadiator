@@ -13,6 +13,7 @@ public class GUITest : MonoBehaviour
 
 		void OnGUI ()
 		{
+		ConfigurationFile.Initialize ();
 				GUI.depth = 20;
 				GUIStyle bigFontStyleTextField = new GUIStyle (GUI.skin.textField);
 				GUIStyle bigFontStyleBox = new GUIStyle (GUI.skin.box);
