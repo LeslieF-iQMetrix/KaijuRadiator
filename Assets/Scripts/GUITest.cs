@@ -7,13 +7,12 @@ using System.Collections.Generic;
 public class GUITest : MonoBehaviour
 {
 
-		private static readonly string TeamcityUrl = "https://teamcity.iqmetrix.com/httpAuth/app/rest/";
 		private string username = "Username";
 		private string password = "Password";
 
 		void OnGUI ()
 		{
-		ConfigurationFile.Initialize ();
+		Configuration.Initialize ();
 				GUI.depth = 20;
 				GUIStyle bigFontStyleTextField = new GUIStyle (GUI.skin.textField);
 				GUIStyle bigFontStyleBox = new GUIStyle (GUI.skin.box);
@@ -27,8 +26,11 @@ public class GUITest : MonoBehaviour
 				GUI.SetNextControlName ("Password");
 				password = GUI.PasswordField (new Rect ((Screen.width / 2) - 220, (Screen.height / 2), 400, 40), password, '*', bigFontStyleTextField);
 				if (GUI.Button (new Rect ((Screen.width / 2) + 100, (Screen.height / 2) + 60, 120, 40), "LOGIN")) {
-						StartCoroutine (Login());
+						StartCoroutine (Configuration.Login());
 				}
+
+        username = Configuration.Settings [Configuration.USERNAME_FIELD];
+        password = Configuration.Settings [Configuration.PASSWORD_FIELD];
 
 				// The textfields getting focus makes textfields blank if still at default value
 				if (Event.current.type == EventType.Repaint) {
@@ -49,20 +51,4 @@ public class GUITest : MonoBehaviour
 						}
 				}
 		}
-
-		IEnumerator Login ()
-		{
-				var login = String.Format ("{0}:{1}", username, password);
-				var headers = new Dictionary<string, string> ();
-				headers ["Authorization"] = "Basic " + System.Convert.ToBase64String (System.Text.Encoding.ASCII.GetBytes (login)); 
-				var www = new WWW (TeamcityUrl, null, headers);
-				yield return www;
-				if (www.error != null) {
-						Debug.Log (www.error);
-						yield break;
-				}
-				
-				Debug.Log(string.Format ("Successful login by user {0}", username));
-				GameObject.Find ("LoginGUI").AddComponent ("LoginMessage");
-	}
 }

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b42d9d4551056054dafc55fa7d84cd5c
+guid: 345d608acbeadb24aba61be748fcb00c
 ModelImporter:
   serializedVersion: 16
   fileIDToRecycleName:
@@ -60,7 +60,7 @@ ModelImporter:
     armStretch: .0500000007
     legStretch: .0500000007
     feetSpacing: 0
-    rootMotionBoneName: 
+    rootMotionBoneName: default
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 2
   additionalBone: 0

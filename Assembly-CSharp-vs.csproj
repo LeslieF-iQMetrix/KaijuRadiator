@@ -46,8 +46,9 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\ConfigurationFile.cs" />
+     <Compile Include="Assets\Scripts\Configuration.cs" />
      <Compile Include="Assets\Scripts\GUITest.cs" />
+     <Compile Include="Assets\Scripts\GodzillaBounceAround.cs" />
      <Compile Include="Assets\Scripts\LoginMessage.cs" />
      <Compile Include="Assets\Scripts\TeamCityBuildInfo.cs" />
   </ItemGroup>
