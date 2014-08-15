@@ -26,11 +26,11 @@ public class GUITest : MonoBehaviour
 				GUI.SetNextControlName ("Password");
 				password = GUI.PasswordField (new Rect ((Screen.width / 2) - 220, (Screen.height / 2), 400, 40), password, '*', bigFontStyleTextField);
 				if (GUI.Button (new Rect ((Screen.width / 2) + 100, (Screen.height / 2) + 60, 120, 40), "LOGIN")) {
-						StartCoroutine (Configuration.Login());
+						//StartCoroutine (Configuration.Login());
 				}
 
-        username = Configuration.Settings [Configuration.USERNAME_FIELD];
-        password = Configuration.Settings [Configuration.PASSWORD_FIELD];
+                username = Configuration.Settings [Configuration.USERNAME_FIELD];
+                password = Configuration.Settings [Configuration.PASSWORD_FIELD];
 
 				// The textfields getting focus makes textfields blank if still at default value
 				if (Event.current.type == EventType.Repaint) {

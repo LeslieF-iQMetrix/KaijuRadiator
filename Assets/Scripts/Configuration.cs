@@ -6,32 +6,32 @@ using System;
 
 public static class Configuration
 {
+    public static bool Loaded = false;
 
-    private static readonly string filePath = Application.persistentDataPath + "/config.cfg";
+    public static readonly string FilePath = Application.persistentDataPath + "/config.cfg";
+
     public static readonly Dictionary<string, string> Settings = new Dictionary<string, string>();
-    public static readonly string TeamcityUrl = "https://teamcity.iqmetrix.com/httpAuth/app/rest/";
-
     public static readonly string TEAMCITY_URL_FIELD = "Teamcity.URL";
     public static readonly string USERNAME_FIELD = "Username";
     public static readonly string PASSWORD_FIELD = "Password";
 
     public static void Initialize()
     {
-        Debug.Log(filePath);
-        if (!Directory.Exists(Path.GetDirectoryName(filePath)))
+        Debug.Log(FilePath);
+        if (!Directory.Exists(Path.GetDirectoryName(FilePath)))
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+            Directory.CreateDirectory(Path.GetDirectoryName(FilePath));
         }
-        if (!File.Exists(filePath))
+        if (!File.Exists(FilePath))
         {
-            var writer = new StreamWriter(filePath);
-            writer.WriteLine(TEAMCITY_URL_FIELD + "=");
+            var writer = new StreamWriter(FilePath);
+            writer.WriteLine(TEAMCITY_URL_FIELD + "=" + "https://teamcity.iqmetrix.com/httpAuth/app/rest/");
             writer.WriteLine(USERNAME_FIELD + "=");
             writer.WriteLine(PASSWORD_FIELD + "=");
             writer.Flush();
             writer.Close();
         }
-        var configFile = new StreamReader(filePath);
+        var configFile = new StreamReader(FilePath);
         string line;
         while ((line = configFile.ReadLine()) != null)
         {
@@ -42,21 +42,6 @@ public static class Configuration
                 Settings [tokens [0]] = tokens [1];
             }
         }
-    }
-
-    public static IEnumerator Login ()
-    {
-        var login = String.Format ("{0}:{1}", Settings[USERNAME_FIELD], Settings[PASSWORD_FIELD]);
-        var headers = new Dictionary<string, string> ();
-        headers ["Authorization"] = "Basic " + System.Convert.ToBase64String (System.Text.Encoding.ASCII.GetBytes (login)); 
-        var www = new WWW (Configuration.Settings[Configuration.TEAMCITY_URL_FIELD], null, headers);
-        yield return www;
-        if (www.error != null) {
-            Debug.Log (www.error);
-            yield break;
-        }
-        
-        Debug.Log(string.Format ("Successful login by user {0}", Settings[USERNAME_FIELD]));
-        GameObject.Find ("LoginGUI").AddComponent ("LoginMessage");
+        Loaded = true;
     }
 }

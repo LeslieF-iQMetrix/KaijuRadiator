@@ -3,8 +3,8 @@ using System.Collections;
 
 public class GodzillaBounceAround : MonoBehaviour
 {
-
-    private bool onTheGround = false;
+    private bool GoLeft = true;
+    private bool GoRight = false;
 
     // Use this for initialization
     void Start()
@@ -15,10 +15,25 @@ public class GodzillaBounceAround : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (onTheGround)
+        if (GoLeft)
+        {   
+            rigidbody.velocity = new Vector3(0, 0, 0);
+            Quaternion newRotation = Quaternion.AngleAxis(90, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, 0.1f);
+        } 
+        else if (GoRight)
+        {   
+            rigidbody.velocity = new Vector3(0, 0, 0);
+            Quaternion newRotation = Quaternion.AngleAxis(270, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, 0.1f);
+        }
+
+        if (Mathf.Abs(transform.rotation.eulerAngles.y - 90) < 1)
         {
-            rigidbody.velocity = new Vector3(Random.Range(-25,25), 25, Random.Range(-25,25));
-            onTheGround = false;
+            rigidbody.velocity = new Vector3(-10, 0, 0);
+        } else if (Mathf.Abs(transform.rotation.eulerAngles.y - 270) < 1)
+        {
+            rigidbody.velocity = new Vector3(10, 0, 0);
         }
     }
 
@@ -26,7 +41,18 @@ public class GodzillaBounceAround : MonoBehaviour
     {
         if (collision.gameObject.name == "Terrain")
         {
-            onTheGround = true;
+        }
+
+        else if (collision.gameObject.name == "Wall1")
+        {
+            GoLeft = false;
+            GoRight = true;
+        }
+
+        else if (collision.gameObject.name == "Wall2")
+        {
+            GoLeft = true;
+            GoRight = false;
         }
     }
 }
